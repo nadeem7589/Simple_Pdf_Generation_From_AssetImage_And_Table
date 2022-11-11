@@ -70,56 +70,111 @@ class _MyHomePageState extends State<MyHomePage> {
     PdfDocument document = PdfDocument();
     final page = document.pages.add();
 
-    page.graphics.drawString('Welcome to PDF Succinctly!',
-        PdfStandardFont(
-            PdfFontFamily.helvetica,
-            30));
+    ///RectAngle
+
+    document.pages[0].annotations.add(PdfRectangleAnnotation(
+        Rect.fromLTWH(50, 0, 420, 750), 'Rectangle',
+        color: PdfColor(0,0, 0), setAppearance: true));
+
+    ///Image
+
 
     page.graphics.drawImage(
-        PdfBitmap(await _readImageData('image.png')),
-        Rect.fromLTWH(100, 30,300 , 300));
-
-    PdfGrid grid = PdfGrid();
-    grid.style = PdfGridStyle(
-        font: PdfStandardFont(PdfFontFamily.helvetica, 30),
-        cellPadding: PdfPaddings(left: 5, right: 2, top: 2, bottom: 2));
-
-    grid.columns.add(count: 3);
-    grid.headers.add(1);
-
-    PdfGridRow header = grid.headers[0];
-    header.cells[0].value = 'Roll No';
-    header.cells[1].value = 'Name';
-    header.cells[2].value = 'Class';
+        PdfBitmap(await _readImageData('image.png',)),
+        Rect.fromLTWH(150, -40,0 , 0));
 
 
+    ///Text
+
+    page.graphics.drawString('Invoice Number #',
+        PdfStandardFont(
+            PdfFontFamily.helvetica,
+            16,style:PdfFontStyle.bold  ),
+      bounds: Rect.fromLTWH(120, 65, 150, 400),
+
+    );
+
+    page.graphics.drawString('1200303030',
+      PdfStandardFont(
+          PdfFontFamily.helvetica,
+          16,style:PdfFontStyle.bold  ),
+      bounds: Rect.fromLTWH(270, 65, 300, 400),
+
+    );
 
 
-    PdfGridRow row = grid.rows.add();
-    row.cells[0].value = '1';
-    row.cells[1].value = 'Arya';
-    row.cells[2].value = '6';
+    ///Text
 
-    row = grid.rows.add();
-    row.cells[0].value = '2';
-    row.cells[1].value = 'John';
-    row.cells[2].value = '9';
+    page.graphics.drawString('Date:',
+      PdfStandardFont(
+          PdfFontFamily.helvetica,
+          16,style:PdfFontStyle.bold  ),
+      bounds: Rect.fromLTWH(200, 80, 150, 400),
 
-    row = grid.rows.add();
-    row.cells[0].value = '3';
-    row.cells[1].value = 'Tony';
-    row.cells[2].value = '8';
+    );
 
+    page.graphics.drawString('12/30/3030',
+      PdfStandardFont(
+          PdfFontFamily.helvetica,
+          16,style:PdfFontStyle.bold  ),
+      bounds: Rect.fromLTWH(270, 80, 300, 400),
 
-
-
-
+    );
 
 
 
 
-    grid.draw(
-        page: document.pages.add(), bounds: const Rect.fromLTWH(0, 0, 0, 0));
+
+    document.pages[0].annotations.add(PdfRectangleAnnotation(
+        Rect.fromLTWH(60, 110, 400, 0), 'SquareAnnotation',
+        color: PdfColor(0,0, 0), setAppearance: true));
+
+
+
+    // PdfGrid grid = PdfGrid();
+    // grid.style = PdfGridStyle(
+    //     font: PdfStandardFont(PdfFontFamily.helvetica, 30),
+    //     cellPadding: PdfPaddings(left: 5, right: 2, top: 2, bottom: 2));
+    //
+    // grid.columns.add(count: 3);
+    // grid.headers.add(1);
+    //
+    //
+    //
+    //
+    // PdfGridRow header = grid.headers[0];
+    // header.cells[0].value = 'Roll No';
+    // header.cells[1].value = 'Name';
+    // header.cells[2].value = 'Class';
+    //
+    //
+    //
+    //
+    // PdfGridRow row = grid.rows.add();
+    // row.cells[0].value = '1';
+    // row.cells[1].value = 'Arya';
+    // row.cells[2].value = '6';
+    //
+    // row = grid.rows.add();
+    // row.cells[0].value = '2';
+    // row.cells[1].value = 'John';
+    // row.cells[2].value = '9';
+    //
+    // row = grid.rows.add();
+    // row.cells[0].value = '3';
+    // row.cells[1].value = 'Tony';
+    // row.cells[2].value = '8';
+
+
+
+
+
+
+    //
+    //
+    //
+    // grid.draw(
+    //     page: document.pages.add(), bounds: const Rect.fromLTWH(0, 0, 0, 0));
 
 
 
@@ -147,8 +202,5 @@ Future<void> saveAndLaunchFile(List<int> bytes, String fileName) async {
   final path = (await getExternalStorageDirectory())!.path;
   final file = File('$path/$fileName');
   await file.writeAsBytes( bytes, flush: true);
-
-  print("dhhdhdhd;l;l;ll;ll;;l");
-  print("dhhdhdhd;l;l;ll;ll;;l");
   OpenFile.open('$path/$fileName');
 }
